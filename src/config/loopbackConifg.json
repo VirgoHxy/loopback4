@@ -1,0 +1,11 @@
+{
+  "rest": {
+    "port": 3001
+  },
+  "observerOptions": {
+    "orderedGroups": ["g1", "g2"]
+  },
+  "custom": {
+    "apiBasePath": "/api"
+  }
+}
