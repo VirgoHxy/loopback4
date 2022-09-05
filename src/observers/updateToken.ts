@@ -1,4 +1,5 @@
 import {observerOptions} from '$config/loopback.conifg.json';
+import {logger} from '$plugins/logger.plugin';
 import {RemoteProvider, RemoteServiceProp} from '$services';
 import {lifeCycleObserver, LifeCycleObserver, service} from '@loopback/core';
 import {updateTokenFunc} from './jobs/updateToken';
@@ -9,21 +10,19 @@ import {updateTokenFunc} from './jobs/updateToken';
  */
 @lifeCycleObserver(observerOptions.orderedGroups[0])
 export class UpdateTokenObserver implements LifeCycleObserver {
-  constructor(
-    @service(RemoteProvider) protected remoteService: RemoteServiceProp,
-  ) {}
+  constructor(@service(RemoteProvider) protected remoteService: RemoteServiceProp) {}
 
   /**
    * This method will be invoked when the application starts
    */
   async start(): Promise<void> {
-    updateTokenFunc(this.remoteService);
+    await updateTokenFunc(this.remoteService);
   }
 
   /**
    * This method will be invoked when the application stops
    */
   async stop(): Promise<void> {
-    console.log('updateToken', 'stopped');
+    logger.info('updateToken', 'stopped');
   }
 }

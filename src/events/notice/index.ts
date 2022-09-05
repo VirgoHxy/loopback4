@@ -1,3 +1,6 @@
+import {logger} from '$plugins/logger.plugin';
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default class NoticeEvent {
   param: any;
   constructor(param: any) {
@@ -5,6 +8,6 @@ export default class NoticeEvent {
   }
 
   excute() {
-    console.log('notice:', this.param);
+    logger.debug('notice param:', this.param);
   }
 }

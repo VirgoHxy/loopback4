@@ -1,3 +1,4 @@
+import {logger} from '$plugins/logger.plugin';
 import {CronJob, cronJob} from '@loopback/cron';
 @cronJob()
 export class LogJob extends CronJob {
@@ -12,6 +13,6 @@ export class LogJob extends CronJob {
     });
   }
   static func() {
-    console.log('server is running');
+    logger.debug('server is running');
   }
 }

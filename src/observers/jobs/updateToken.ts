@@ -1,4 +1,5 @@
 import settingConfig from '$config/setting.config.json';
+import {logger} from '$plugins/logger.plugin';
 import {RemoteProvider, RemoteServiceProp} from '$services';
 import {service} from '@loopback/core';
 import {CronJob, cronJob} from '@loopback/cron';
@@ -11,20 +12,20 @@ export async function updateTokenFunc(remoteService: RemoteServiceProp) {
     // );
     // settingConfig.remoteToken = result.access_token;
     settingConfig.remoteToken = 'token';
-    console.log(settingConfig.remoteToken);
+    logger.info(settingConfig.remoteToken);
   } catch (error) {
-    console.log('updateTokenJob', error);
+    logger.warn('updateTokenJob', error);
   }
 }
 @cronJob()
 export class UpdateTokenJob extends CronJob {
-  constructor(
-    @service(RemoteProvider) protected remoteService: RemoteServiceProp,
-  ) {
+  constructor(@service(RemoteProvider) protected remoteService: RemoteServiceProp) {
     super({
       name: 'updateToken',
       onTick: () => {
-        updateTokenFunc(remoteService);
+        updateTokenFunc(remoteService).catch(error => {
+          logger.warn(error);
+        });
       },
       cronTime: '0 33 1/8 * * *',
       start: true,

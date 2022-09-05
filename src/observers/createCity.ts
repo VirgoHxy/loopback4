@@ -1,12 +1,7 @@
 import {observerOptions} from '$config/loopback.conifg.json';
+import {logger} from '$plugins/logger.plugin';
 import {CityRepository} from '$repositories';
-import {
-  Application,
-  CoreBindings,
-  inject,
-  lifeCycleObserver,
-  LifeCycleObserver,
-} from '@loopback/core';
+import {Application, CoreBindings, inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {IsolationLevel, repository} from '@loopback/repository';
 
 /**
@@ -33,19 +28,15 @@ export class CreateCityObserver implements LifeCycleObserver {
       timeout: 10000,
     });
     try {
-      let countResult1 = await this.cityRepo.count({name: 'shanghai'});
-      let countResult2 = await this.cityRepo.count({name: 'beijing'});
-      const result1 =
-        countResult1.count === 0 &&
-        (await this.cityRepo.create({name: 'shanghai'}, {transaction}));
-      const result2 =
-        countResult2.count === 0 &&
-        (await this.cityRepo.create({name: 'beijing'}, {transaction}));
+      const countResult1 = await this.cityRepo.count({name: 'shanghai'});
+      const countResult2 = await this.cityRepo.count({name: 'beijing'});
+      const result1 = countResult1.count === 0 && (await this.cityRepo.create({name: 'shanghai'}, {transaction}));
+      const result2 = countResult2.count === 0 && (await this.cityRepo.create({name: 'beijing'}, {transaction}));
       await transaction.commit();
       // await transaction.rollback();
-      console.log('createCity', result1, result2);
+      logger.info('createCity', result1, result2);
     } catch (error) {
-      console.log('createCity', error);
+      logger.warning('createCity', error);
     }
   }
 
@@ -53,6 +44,6 @@ export class CreateCityObserver implements LifeCycleObserver {
    * This method will be invoked when the application stops
    */
   async stop(): Promise<void> {
-    console.log('createCity', 'stopped');
+    logger.info('createCity', 'stopped');
   }
 }
