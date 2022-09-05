@@ -1,4 +1,4 @@
-import {observerOptions} from '$config/loopbackConifg.json';
+import {observerOptions} from '$config/loopback.conifg.json';
 import {RemoteProvider, RemoteServiceProp} from '$services';
 import {lifeCycleObserver, LifeCycleObserver, service} from '@loopback/core';
 import {updateTokenFunc} from './jobs/updateToken';
@@ -17,7 +17,7 @@ export class UpdateTokenObserver implements LifeCycleObserver {
    * This method will be invoked when the application starts
    */
   async start(): Promise<void> {
-    updateTokenFunc();
+    updateTokenFunc(this.remoteService);
   }
 
   /**

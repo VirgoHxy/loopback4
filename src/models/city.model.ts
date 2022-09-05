@@ -1,22 +1,8 @@
+import {Group} from '$models';
 import {Entity, hasMany, model, property} from '@loopback/repository';
-import {Group, GroupInfo, GroupWithRelations} from './group.model';
-
-export interface CityInfo {
-  id: number;
-  name: string;
-  date?: string;
-}
-export interface CityInfoHasGroup extends CityInfo {
-  groups: Array<GroupInfo>;
-  typeData: Object;
-}
 
 @model()
 export class City extends Entity {
-  constructor(data?: Partial<City>) {
-    super(data);
-  }
-
   @property({
     type: 'number',
     id: true,
@@ -40,7 +26,7 @@ export class City extends Entity {
 }
 
 export interface CityRelations {
-  groups?: GroupWithRelations[];
+  groups?: Group[];
 }
 
 export type CityWithRelations = City & CityRelations;

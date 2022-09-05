@@ -43,8 +43,8 @@ this project is [new url](http://127.0.0.1:3001)
   - `__tests__/` -- 测试用例文件夹
   - config/ -- 公共配置 json
     - apiConfig.json -- api 配置
-    - datasources.json -- 数据库以及远程连接配置
-    - loopbackConifg.json -- loopback 服务配置
+    - datasource.config.json -- 数据库以及远程连接配置
+    - loopback.conifg.json -- loopback 服务配置
   - controllers/ -- 控制器,负责提供接口地址,以及接口出入参
     - index.ts -- 统一导出模块
     - 子文件夹 -- 用文件夹解耦不同业务模块
@@ -54,7 +54,7 @@ this project is [new url](http://127.0.0.1:3001)
   - events/ -- 处理事件,负责将公共业务以事件驱动模式统一处理
     - index.ts -- 导出 emit 方法
     - 子文件夹 -- 用文件夹解耦不同业务模块
-  - middleware/ -- 中间件,负责请求和响应的操作
+  - middlewares/ -- 中间件,负责请求和响应的操作
     - index.middleware.ts -- 导出中间件
   - models/ -- 表模型,负责定义表字段
     - index.ts -- 统一导出模块

@@ -1,0 +1,22 @@
+{
+  "name": "remoteOne",
+  "connector": "rest",
+  "baseURL": "",
+  "crud": false,
+  "operations": [
+    {
+      "template": {
+        "method": "POST",
+        "url": "http: //remoteOne.com/dataControl/getRemoteOneData",
+        "headers": {
+          "content-type": "application/json",
+          "authorization": "V0VCUjpzYBzYXUQ"
+        },
+        "body": "{body:object}"
+      },
+      "functions": {
+        "getRemoteOneData": ["body"]
+      }
+    }
+  ]
+}

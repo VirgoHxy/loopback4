@@ -1,4 +1,4 @@
-import {observerOptions} from '$config/loopbackConifg.json';
+import {observerOptions} from '$config/loopback.conifg.json';
 import {CityRepository} from '$repositories';
 import {
   Application,

@@ -1,22 +1,21 @@
-import apiConfig from '$config/apiConfig.json';
+import settingConfig from '$config/setting.config.json';
 import {RemoteProvider, RemoteServiceProp} from '$services';
 import {service} from '@loopback/core';
 import {CronJob, cronJob} from '@loopback/cron';
 
-export function updateTokenFunc() {
+export async function updateTokenFunc(remoteService: RemoteServiceProp) {
   try {
-    // let result = await this.remoteService.getToken(
-    //   apiConfig.account,
-    //   apiConfig.password,
+    // let result = await remoteService.getToken(
+    //   settingConfig.remoteAccount,
+    //   settingConfig.remotePassword,
     // );
-    // apiConfig.token = result.access_token;
-    apiConfig.token = 'token';
-    console.log(apiConfig.token);
+    // settingConfig.remoteToken = result.access_token;
+    settingConfig.remoteToken = 'token';
+    console.log(settingConfig.remoteToken);
   } catch (error) {
     console.log('updateTokenJob', error);
   }
 }
-
 @cronJob()
 export class UpdateTokenJob extends CronJob {
   constructor(
@@ -25,7 +24,7 @@ export class UpdateTokenJob extends CronJob {
     super({
       name: 'updateToken',
       onTick: () => {
-        updateTokenFunc();
+        updateTokenFunc(remoteService);
       },
       cronTime: '0 33 1/8 * * *',
       start: true,

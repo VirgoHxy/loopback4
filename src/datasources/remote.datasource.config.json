@@ -1,0 +1,53 @@
+{
+  "name": "remote",
+  "connector": "rest",
+  "baseURL": "",
+  "crud": false,
+  "operations": [
+    {
+      "template": {
+        "method": "POST",
+        "url": "http://remote.com/loginControl/login",
+        "headers": {
+          "content-type": "application/json"
+        },
+        "form": {
+          "username": "{username:string}",
+          "password": "{password:string}"
+        }
+      },
+      "functions": {
+        "getToken": ["username", "password"]
+      }
+    },
+    {
+      "template": {
+        "method": "POST",
+        "url": "http://remote.com/dataControl/getRemoteData",
+        "headers": {
+          "content-type": "application/json",
+          "authorization": "{token:string}"
+        },
+        "body": "{body:object}"
+      },
+      "functions": {
+        "getRemoteData": ["token", "body"]
+      }
+    },
+    {
+      "template": {
+        "method": "GET",
+        "url": "http://remote.com/dataControl/getTypeDesc",
+        "headers": {
+          "authorization": "{token:string}"
+        },
+        "query": {
+          "intType": "{type:number}"
+        }
+      },
+      "functions": {
+        "getTypeDesc": ["token", "type"]
+      }
+    }
+  ]
+}

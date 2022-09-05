@@ -1,6 +1,6 @@
-import {MysqlDB} from '$config/datasources.json';
 import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
+import config from './mysql.datasource.config.json';
 
 // Observe application's life cycle to disconnect the datasource when
 // application is stopped. This allows the application to be shut down
@@ -12,11 +12,11 @@ export class MysqlDataSource
   implements LifeCycleObserver
 {
   static dataSourceName = 'mysql';
-  static readonly defaultConfig = MysqlDB;
+  static readonly defaultConfig = config;
 
   constructor(
     @inject('datasources.config.mysql', {optional: true})
-    dsConfig: object = MysqlDB,
+    dsConfig: object = config,
   ) {
     super(dsConfig);
   }

@@ -1,4 +1,4 @@
-import {get, response} from '@loopback/rest';
+import {get, param, response} from '@loopback/rest';
 
 /**
  * A simple controller to bounce back http requests
@@ -8,7 +8,7 @@ export class PingController {
 
   @get('/ping')
   @response(200)
-  ping(): string {
-    return 'ok';
+  ping(@param.query.string('param') params: string): string {
+    return params || 'ok';
   }
 }

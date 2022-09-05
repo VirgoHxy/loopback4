@@ -1,5 +1,6 @@
 import {ApplicationConfig, Loopback4Application} from './application';
-import {rest} from './config/loopbackConifg.json';
+import {rest} from './config/loopback.conifg.json';
+import {logger} from './plugins';
 
 export * from './application';
 
@@ -9,8 +10,10 @@ export async function main(options: ApplicationConfig = {}) {
   await app.start();
 
   const url = app.restServer.url;
-  console.log(`Server is running at ${url}`);
-  console.log(`Try ${url}/ping`);
+  logger.info(`Try ${url}/ping`, new Error('123'));
+  logger.info(`Try ${url}/ping`, {demo: 1});
+  logger.info(`Server is running at ${url}`);
+  logger.info(`Try ${url}/ping`);
 
   return app;
 }
@@ -37,7 +40,7 @@ if (require.main === module) {
     ),
   };
   main(config).catch(err => {
-    console.error('Cannot start the application.', err);
+    logger.error('Cannot start the application.', err);
     process.exit(1);
   });
 }

@@ -1,6 +1,6 @@
-import {RemoteRest} from '$config/datasources.json';
 import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
+import config from './remote.datasource.config.json';
 
 // Observe application's life cycle to disconnect the datasource when
 // application is stopped. This allows the application to be shut down
@@ -12,11 +12,11 @@ export class RemoteDataSource
   implements LifeCycleObserver
 {
   static dataSourceName = 'remote';
-  static readonly defaultConfig = RemoteRest;
+  static readonly defaultConfig = config;
 
   constructor(
     @inject('datasources.config.remote', {optional: true})
-    dsConfig: object = RemoteRest,
+    dsConfig: object = config,
   ) {
     super(dsConfig);
   }

@@ -1,6 +1,6 @@
-import {MemoryDB} from '$config/datasources.json';
 import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
+import config from './memory.datasource.config.json';
 
 // Observe application's life cycle to disconnect the datasource when
 // application is stopped. This allows the application to be shut down
@@ -12,11 +12,11 @@ export class MemoryDataSource
   implements LifeCycleObserver
 {
   static dataSourceName = 'memory';
-  static readonly defaultConfig = MemoryDB;
+  static readonly defaultConfig = config;
 
   constructor(
     @inject('datasources.config.memory', {optional: true})
-    dsConfig: object = MemoryDB,
+    dsConfig: object = config,
   ) {
     super(dsConfig);
   }

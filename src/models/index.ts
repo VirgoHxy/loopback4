@@ -1,3 +1,2 @@
-export * from './common/common.model';
-export * from './home/city.model';
-export * from './home/group.model';
+export * from './city.model';
+export * from './group.model';

@@ -1,12 +1,5 @@
+import {City} from '$models';
 import {belongsTo, Entity, model, property} from '@loopback/repository';
-import {City, CityWithRelations} from './city.model';
-
-export interface GroupInfo {
-  id: number;
-  cityId: number;
-  name: string;
-  date?: string;
-}
 
 @model()
 export class Group extends Entity {
@@ -37,7 +30,7 @@ export class Group extends Entity {
 }
 
 export interface GroupRelations {
-  city?: CityWithRelations;
+  city?: City;
 }
 
 export type GroupWithRelations = Group & GroupRelations;

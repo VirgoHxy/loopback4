@@ -1,0 +1,9 @@
+{
+  "remoteToken": "",
+  "remoteAccount": "admin",
+  "remotePassword": "admin",
+  "jwt": {
+    "expiresIn": 86400,
+    "secret": "your-256-bit-secret"
+  }
+}

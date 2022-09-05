@@ -1,3 +1,2 @@
-export * from './common/common.repository';
-export * from './home/city.repository';
-export * from './home/group.repository';
+export * from './city.repository';
+export * from './group.repository';
