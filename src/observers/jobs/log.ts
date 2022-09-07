@@ -1,5 +1,5 @@
-import {logger} from '$plugins/logger.plugin';
 import {CronJob, cronJob} from '@loopback/cron';
+import {logger} from '../../plugins/logger.plugin';
 @cronJob()
 export class LogJob extends CronJob {
   constructor() {

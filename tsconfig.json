@@ -3,24 +3,7 @@
   "extends": "@loopback/build/config/tsconfig.common.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src",
-    "baseUrl": "./",
-    "paths": {
-      "$config/*": ["src/config/*"],
-      "$datasources/*": ["src/datasources/*"],
-      "$events/*": ["src/events/*"],
-      "$plugins/*": ["src/plugins/*"],
-      "$models/*": ["src/models/*"],
-      "$repositories/*": ["src/repositories/*"],
-      "$services/*": ["src/services/*"],
-      "$config": ["src/config/index"],
-      "$datasources": ["src/datasources/index"],
-      "$events": ["src/events/index"],
-      "$plugins": ["src/plugins/index"],
-      "$models": ["src/models/index"],
-      "$repositories": ["src/repositories/index"],
-      "$services": ["src/services/index"]
-    }
+    "rootDir": "src"
   },
   "include": ["src"]
 }

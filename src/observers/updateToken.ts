@@ -1,7 +1,7 @@
-import {observerOptions} from '$config/loopback.conifg.json';
-import {logger} from '$plugins/logger.plugin';
-import {RemoteProvider, RemoteServiceProp} from '$services';
 import {lifeCycleObserver, LifeCycleObserver, service} from '@loopback/core';
+import {observerOptions} from '../config/loopback.conifg.json';
+import {logger} from '../plugins/logger.plugin';
+import {RemoteProvider, RemoteServiceProp} from '../services';
 import {updateTokenFunc} from './jobs/updateToken';
 
 /**

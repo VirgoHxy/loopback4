@@ -2,20 +2,14 @@ import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig, CoreBindings} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
 import {RestApplication} from '@loopback/rest';
-import {
-  RestExplorerBindings,
-  RestExplorerComponent,
-} from '@loopback/rest-explorer';
+import {RestExplorerBindings, RestExplorerComponent} from '@loopback/rest-explorer';
 import {ServiceMixin} from '@loopback/service-proxy';
-import 'module-alias/register';
 import path from 'path';
 import {observerOptions} from './config/loopback.conifg.json';
 import {MySequence} from './sequence';
 export {ApplicationConfig};
 
-export class Loopback4Application extends BootMixin(
-  ServiceMixin(RepositoryMixin(RestApplication)),
-) {
+export class Loopback4Application extends BootMixin(ServiceMixin(RepositoryMixin(RestApplication))) {
   constructor(options: ApplicationConfig = {}) {
     super(options);
 

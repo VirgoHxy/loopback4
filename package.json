@@ -50,15 +50,6 @@
     "src",
     "!*/__tests__"
   ],
-  "_moduleAliases": {
-    "$config": "dist/config",
-    "$datasources": "dist/datasources",
-    "$events": "dist/events",
-    "$models": "dist/models",
-    "$plugins": "dist/plugins",
-    "$repositories": "dist/repositories",
-    "$services": "dist/services"
-  },
   "dependencies": {
     "@loopback/boot": "^5.0.2",
     "@loopback/core": "^4.0.2",

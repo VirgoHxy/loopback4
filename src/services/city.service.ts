@@ -1,9 +1,9 @@
-import emitEvent from '$events';
-import {City} from '$models';
-import {CityRepository} from '$repositories';
-import {RemoteProvider, RemoteServiceProp} from '$services';
 import {BindingScope, injectable, service} from '@loopback/core';
 import {model, property, repository} from '@loopback/repository';
+import emitEvent from '../events';
+import {City} from '../models';
+import {CityRepository} from '../repositories';
+import {RemoteProvider, RemoteServiceProp} from '../services';
 
 @model()
 export class GetCityInfoParam {

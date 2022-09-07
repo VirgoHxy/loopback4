@@ -1,7 +1,7 @@
-import {City} from '$models';
-import {CityService, GetCityInfoParam} from '$services';
 import {service} from '@loopback/core';
 import {getModelSchemaRef, post, requestBody, response} from '@loopback/rest';
+import {City} from '../models';
+import {CityService, GetCityInfoParam} from '../services';
 
 export class CityController {
   constructor(@service(CityService) private cityService: CityService) {}

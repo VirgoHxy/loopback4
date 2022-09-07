@@ -24,10 +24,13 @@
       "command": "npm start"
     },
     {
-      "type": "node-terminal",
+      "type": "node",
       "request": "launch",
       "name": "npm run start:watch",
-      "command": "npm run start:watch"
+      "cwd": "${workspaceRoot}",
+      "runtimeExecutable": "npm",
+      "outputCapture": "std",
+      "runtimeArgs": ["run-script", "start:watch"]
     }
   ]
 }

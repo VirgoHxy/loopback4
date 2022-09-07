@@ -1,6 +1,6 @@
-import {RemoteDataSource} from '$datasources';
 import {inject, Provider} from '@loopback/core';
 import {getService} from '@loopback/service-proxy';
+import {RemoteDataSource} from '../datasources';
 
 export interface RemoteServiceProp {
   // Add the following property

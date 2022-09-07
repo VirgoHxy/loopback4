@@ -5,8 +5,8 @@ import 'winston-daily-rotate-file';
 
 const options = {
   console: {
-    level: 'debug',
     handleExceptions: true,
+    handleRejections: true,
     json: false,
     colorize: true,
   },
@@ -92,7 +92,11 @@ export const logger = winston.createLogger({
     customFormat,
   ),
   transports: [
-    new winston.transports.Console(options.console),
+    new winston.transports.Console({
+      level: 'debug',
+      format: winston.format.combine(winston.format.colorize({all: true})),
+      ...options.console,
+    }),
     new winston.transports.DailyRotateFile({
       level: 'error',
       filename: 'error.log',

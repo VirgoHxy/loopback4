@@ -1,5 +1,5 @@
-import {Group} from '$models';
 import {Entity, hasMany, model, property} from '@loopback/repository';
+import {Group} from '../models';
 
 @model()
 export class City extends Entity {

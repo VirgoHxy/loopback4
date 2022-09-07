@@ -1,12 +1,7 @@
-import JWTPlugin, {TokenConstant} from '$plugins/jwt.plugin';
-import {ResultPlugin, UnauthorizedError} from '$plugins/loopback-result.plugin';
-import {
-  ControllerRoute,
-  DefaultSequence,
-  Request,
-  RequestContext,
-} from '@loopback/rest';
+import {ControllerRoute, DefaultSequence, Request, RequestContext} from '@loopback/rest';
 import {settingConfig} from './config';
+import JWTPlugin, {TokenConstant} from './plugins/jwt.plugin';
+import {ResultPlugin, UnauthorizedError} from './plugins/loopback-result.plugin';
 
 export class MySequence extends DefaultSequence {
   auth(request: Request): boolean {
@@ -14,16 +9,15 @@ export class MySequence extends DefaultSequence {
     if (!authorization) {
       throw new UnauthorizedError('Authorization not found in request header!');
     }
-    let startPoint = authorization.slice(0, 7);
-    authorization =
-      startPoint === 'Bearer ' ? authorization.slice(7) : authorization;
+    const startPoint = authorization.slice(0, 7);
+    authorization = startPoint === 'Bearer ' ? authorization.slice(7) : authorization;
     const jwtToken = authorization || null;
     if (!jwtToken) {
       throw new UnauthorizedError('Authorization not found in request header!');
     }
 
     try {
-      let tokenConstant: TokenConstant = {
+      const tokenConstant: TokenConstant = {
         SECRET_KEY: settingConfig.jwt.secret,
         EXPIRATION: settingConfig.jwt.expiresIn,
         ALGORITHM: 'HS256',
@@ -48,19 +42,16 @@ export class MySequence extends DefaultSequence {
       // findRoute() produces an element
       const route = this.findRoute(context.request);
       if (route instanceof ControllerRoute) {
-        let controllerName = Object.getPrototypeOf(route)._controllerName;
-        let methodName = Object.getPrototypeOf(route)._methodName;
-        let notOperControllers = ['ExplorerController', 'PingController'];
-        let notOperMethods: string[] = [];
-        if (
-          !notOperControllers.includes(controllerName) &&
-          !notOperMethods.includes(methodName)
-        ) {
+        const controllerName = Object.getPrototypeOf(route)._controllerName;
+        const methodName = Object.getPrototypeOf(route)._methodName;
+        const notOperControllers = ['ExplorerController', 'PingController'];
+        const notOperMethods: string[] = [];
+        if (!notOperControllers.includes(controllerName) && !notOperMethods.includes(methodName)) {
           isOper = true;
         }
       }
       if (isOper) {
-        let isAuth = this.auth(context.request);
+        const isAuth = this.auth(context.request);
         if (!isAuth) {
           throw new UnauthorizedError('Authorization is illegal!');
         }

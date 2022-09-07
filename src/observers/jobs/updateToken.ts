@@ -1,8 +1,8 @@
-import settingConfig from '$config/setting.config.json';
-import {logger} from '$plugins/logger.plugin';
-import {RemoteProvider, RemoteServiceProp} from '$services';
 import {service} from '@loopback/core';
 import {CronJob, cronJob} from '@loopback/cron';
+import settingConfig from '../../config/setting.config.json';
+import {logger} from '../../plugins/logger.plugin';
+import {RemoteProvider, RemoteServiceProp} from '../../services';
 
 export async function updateTokenFunc(remoteService: RemoteServiceProp) {
   try {

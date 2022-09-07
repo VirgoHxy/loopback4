@@ -1,9 +1,8 @@
-import {logger} from '$plugins/logger.plugin';
+import {logger} from '../../plugins/logger.plugin';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export default class NoticeEvent {
-  param: any;
-  constructor(param: any) {
+  param: unknown;
+  constructor(param: unknown) {
     this.param = param;
   }
 

@@ -1,8 +1,8 @@
-import {observerOptions} from '$config/loopback.conifg.json';
-import {logger} from '$plugins/logger.plugin';
-import {CityRepository} from '$repositories';
 import {Application, CoreBindings, inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {IsolationLevel, repository} from '@loopback/repository';
+import {observerOptions} from '../config/loopback.conifg.json';
+import {logger} from '../plugins/logger.plugin';
+import {CityRepository} from '../repositories';
 
 /**
  * This class will be bound to the application as a `LifeCycleObserver` during
@@ -13,7 +13,7 @@ export class CreateCityObserver implements LifeCycleObserver {
   constructor(
     // inject `app` if you need access to other artifacts by `await this.app.get()`
     @inject(CoreBindings.APPLICATION_INSTANCE) private app: Application,
-    // inject a repository with key `repositories.${repoName}`
+    // inject a repository with key `repositories.../{repoName}`
     // or with the shortcut injector:
     // `@repository(CityRepository) private todoRepo: CityRepository`
     @repository(CityRepository) private cityRepo: CityRepository,
