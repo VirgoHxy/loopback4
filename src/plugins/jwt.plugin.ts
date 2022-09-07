@@ -6,7 +6,7 @@ export interface TokenConstant {
   readonly ALGORITHM: jwt.Algorithm;
 }
 
-export default class JWTPlugin {
+export class JWTPlugin {
   tokenConstant: TokenConstant;
 
   constructor(tokenConstant: TokenConstant) {

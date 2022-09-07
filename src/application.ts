@@ -5,7 +5,7 @@ import {RestApplication} from '@loopback/rest';
 import {RestExplorerBindings, RestExplorerComponent} from '@loopback/rest-explorer';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
-import {observerOptions} from './config/loopback.conifg.json';
+import {loopbackConfig} from './config';
 import {MySequence} from './sequence';
 export {ApplicationConfig};
 
@@ -30,7 +30,7 @@ export class Loopback4Application extends BootMixin(ServiceMixin(RepositoryMixin
     this.component(RestExplorerComponent);
 
     // 规定observers的执行顺序
-    this.bind(CoreBindings.LIFE_CYCLE_OBSERVER_OPTIONS).to(observerOptions);
+    this.bind(CoreBindings.LIFE_CYCLE_OBSERVER_OPTIONS).to(loopbackConfig.observerOptions);
 
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here

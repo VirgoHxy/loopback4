@@ -1,5 +1,12 @@
 import {HttpErrors} from '@loopback/rest';
 
+export interface Result {
+  status: boolean;
+  msg?: string;
+  data?: unknown;
+  error?: unknown;
+}
+
 export class UnauthorizedError {
   constructor(message: string) {
     return new HttpErrors.Unauthorized(message);
@@ -17,13 +24,6 @@ export class NotFoundError {
     error.code = 'ENTITY_NOT_FOUND';
     return error;
   }
-}
-
-export interface Result {
-  status: boolean;
-  msg?: string;
-  data?: unknown;
-  error?: unknown;
 }
 
 export class ResultPlugin {

@@ -1,14 +1,14 @@
 import {Application, CoreBindings, inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {IsolationLevel, repository} from '@loopback/repository';
-import {observerOptions} from '../config/loopback.conifg.json';
-import {logger} from '../plugins/logger.plugin';
+import {loopbackConfig} from '../config';
+import {logger} from '../plugins';
 import {CityRepository} from '../repositories';
 
 /**
  * This class will be bound to the application as a `LifeCycleObserver` during
  * `boot`
  */
-@lifeCycleObserver(observerOptions.orderedGroups[1])
+@lifeCycleObserver(loopbackConfig.observerOptions.orderedGroups[1])
 export class CreateCityObserver implements LifeCycleObserver {
   constructor(
     // inject `app` if you need access to other artifacts by `await this.app.get()`

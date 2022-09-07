@@ -1,4 +1,4 @@
-import {logger} from '../../plugins/logger.plugin';
+import {logger} from '../../plugins';
 
 export default class NoticeEvent {
   param: unknown;

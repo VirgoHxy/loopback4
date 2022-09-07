@@ -1,5 +1,5 @@
 import {ApplicationConfig, Loopback4Application} from './application';
-import {rest} from './config/loopback.conifg.json';
+import {loopbackConfig} from './config';
 import {logger} from './plugins';
 
 export * from './application';
@@ -36,7 +36,7 @@ if (require.main === module) {
           setServersFromRequest: true,
         },
       },
-      rest,
+      loopbackConfig.rest,
     ),
   };
   main(config).catch(err => {

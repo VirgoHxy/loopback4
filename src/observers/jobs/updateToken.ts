@@ -1,7 +1,7 @@
 import {service} from '@loopback/core';
 import {CronJob, cronJob} from '@loopback/cron';
-import settingConfig from '../../config/setting.config.json';
-import {logger} from '../../plugins/logger.plugin';
+import {settingConfig} from '../../config';
+import {logger} from '../../plugins';
 import {RemoteProvider, RemoteServiceProp} from '../../services';
 
 export async function updateTokenFunc(remoteService: RemoteServiceProp) {

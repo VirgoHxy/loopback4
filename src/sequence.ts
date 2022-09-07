@@ -1,7 +1,6 @@
 import {ControllerRoute, DefaultSequence, Request, RequestContext} from '@loopback/rest';
 import {settingConfig} from './config';
-import JWTPlugin, {TokenConstant} from './plugins/jwt.plugin';
-import {ResultPlugin, UnauthorizedError} from './plugins/loopback-result.plugin';
+import {JWTPlugin, ResultPlugin, TokenConstant, UnauthorizedError} from './plugins';
 
 export class MySequence extends DefaultSequence {
   auth(request: Request): boolean {
@@ -66,6 +65,9 @@ export class MySequence extends DefaultSequence {
       // send() uses the result element
       this.send(context.response, result);
     } catch (error) {
+      // 如果send会返回200
+      // this.send(context.response, ResultPlugin.getErrorResult(error));
+      // reject会返回对应的状态码
       this.reject(context, error);
     }
   }
