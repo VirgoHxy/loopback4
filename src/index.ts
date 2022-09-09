@@ -1,6 +1,6 @@
 import {ApplicationConfig, Loopback4Application} from './application';
 import {loopbackConfig} from './config';
-import {logger} from './plugins';
+import {JWTPlugin, logger} from './plugins';
 
 export * from './application';
 
@@ -10,8 +10,13 @@ export async function main(options: ApplicationConfig = {}) {
   await app.start();
 
   const url = app.restServer.url;
-  logger.error(new Error('test for error'));
-  logger.info(`Try ${url}/ping`, {demo: 1});
+  logger.info(
+    new JWTPlugin({
+      SECRET_KEY: 'your-256-bit-secret',
+      EXPIRATION: 24 * 60 * 60,
+      ALGORITHM: 'HS256',
+    }).sign({name: 'hxy'}),
+  );
   logger.info(`Server is running at ${url}`);
   logger.info(`Try ${url}/ping`);
 

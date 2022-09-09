@@ -2,6 +2,8 @@ import path from 'path';
 import {SPLAT} from 'triple-beam';
 import winston from 'winston';
 import 'winston-daily-rotate-file';
+import DailyRotateFile from 'winston-daily-rotate-file';
+import {ConsoleTransportInstance} from 'winston/lib/winston/transports';
 
 export enum TransportEnum {
   all = 'all',
@@ -59,12 +61,16 @@ export class CustomLogger {
   };
 
   constructor(arg?: LoggerArg) {
-    const {logPath, transportType, minLevel} = arg ?? {};
+    const {logPath, transportType = TransportEnum.all, minLevel} = arg ?? {};
     if (logPath) {
       this.options.all.dirname = logPath;
       this.options.category.dirname = logPath + '/%DATE%/';
     }
-    const transportTypeObj = {
+    const transportTypeObj: {
+      console: ConsoleTransportInstance[];
+      all: DailyRotateFile[];
+      category: DailyRotateFile[];
+    } = {
       console: [
         new winston.transports.Console({
           ...this.options.console,
@@ -74,15 +80,48 @@ export class CustomLogger {
           handleExceptions: true,
         }),
       ],
-      all: [
+      all: [],
+      category: [],
+    };
+    const exceptionHandlers: {
+      all: DailyRotateFile[];
+      category: DailyRotateFile[];
+    } = {
+      all: [],
+      category: [],
+    };
+    const rejectionHandlers: {
+      all: DailyRotateFile[];
+      category: DailyRotateFile[];
+    } = {
+      all: [],
+      category: [],
+    };
+    if (transportType === TransportEnum.all) {
+      transportTypeObj.all = [
         new winston.transports.DailyRotateFile({
           ...this.options.dailyRotateFile,
           ...this.options.all,
           level: minLevel,
           filename: '%DATE%.log',
         }),
-      ],
-      category: [
+      ];
+      exceptionHandlers.all = [
+        new winston.transports.DailyRotateFile({
+          ...this.options.dailyRotateFile,
+          ...this.options.all,
+          filename: '%DATE%.log',
+        }),
+      ];
+      rejectionHandlers.all = [
+        new winston.transports.DailyRotateFile({
+          ...this.options.dailyRotateFile,
+          ...this.options.all,
+          filename: '%DATE%.log',
+        }),
+      ];
+    } else if (transportType === TransportEnum.category) {
+      transportTypeObj.category = [
         new winston.transports.DailyRotateFile({
           ...this.options.dailyRotateFile,
           ...this.options.category,
@@ -111,54 +150,36 @@ export class CustomLogger {
           filename: 'debug.log',
           format: winston.format.combine(this.filterFn.debugFilter()),
         }),
-      ],
-    };
-    const transports = {
-      all: [...transportTypeObj.console, ...transportTypeObj.all],
-      onlyConsole: [...transportTypeObj.console],
-      category: [...transportTypeObj.console, ...transportTypeObj.category],
-    };
-    const exceptionHandlers = {
-      all: [
-        new winston.transports.DailyRotateFile({
-          ...this.options.dailyRotateFile,
-          ...this.options.all,
-          filename: '%DATE%.log',
-        }),
-      ],
-      category: [
+      ];
+      exceptionHandlers.category = [
         new winston.transports.DailyRotateFile({
           ...this.options.dailyRotateFile,
           ...this.options.category,
           filename: 'exception.log',
         }),
-      ],
-    };
-    const rejectionHandlers = {
-      all: [
-        new winston.transports.DailyRotateFile({
-          ...this.options.dailyRotateFile,
-          ...this.options.all,
-          filename: '%DATE%.log',
-        }),
-      ],
-      category: [
+      ];
+      rejectionHandlers.category = [
         new winston.transports.DailyRotateFile({
           ...this.options.dailyRotateFile,
           ...this.options.category,
           filename: 'rejections.log',
         }),
-      ],
+      ];
+    }
+    const transports = {
+      all: [...transportTypeObj.console, ...transportTypeObj.all],
+      onlyConsole: [...transportTypeObj.console],
+      category: [...transportTypeObj.console, ...transportTypeObj.category],
     };
     const loggerOptions = {
       format: winston.format.combine(
-        winston.format.label({label: transportType ?? 'default'}),
+        winston.format.label({label: transportType}),
         winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
         this.customFormat(),
       ),
-      transports: transportType ? transports[transportType] : transports['all'],
-      exceptionHandlers: transportType && transportType !== 'onlyConsole' ? exceptionHandlers[transportType] : [],
-      rejectionHandlers: transportType && transportType !== 'onlyConsole' ? rejectionHandlers[transportType] : [],
+      transports: transports[transportType],
+      exceptionHandlers: transportType !== 'onlyConsole' ? exceptionHandlers[transportType] : [],
+      rejectionHandlers: transportType !== 'onlyConsole' ? rejectionHandlers[transportType] : [],
     };
     this.winstonLogger = winston.createLogger(loggerOptions);
   }

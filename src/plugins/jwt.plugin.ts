@@ -26,11 +26,3 @@ export class JWTPlugin {
     return jwt.verify(token, this.tokenConstant.SECRET_KEY);
   }
 }
-
-// console.log(
-//   new JWTPlugin({
-//     SECRET_KEY: 'your-256-bit-secret',
-//     EXPIRATION: 24 * 60 * 60,
-//     ALGORITHM: 'HS256',
-//   }).sign({name: 'hxy'}),
-// );

@@ -1,7 +1,7 @@
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig, CoreBindings} from '@loopback/core';
 import {RepositoryMixin} from '@loopback/repository';
-import {RestApplication} from '@loopback/rest';
+import {RestApplication, RestBindings} from '@loopback/rest';
 import {RestExplorerBindings, RestExplorerComponent} from '@loopback/rest-explorer';
 import {ServiceMixin} from '@loopback/service-proxy';
 import path from 'path';
@@ -20,7 +20,6 @@ export class Loopback4Application extends BootMixin(ServiceMixin(RepositoryMixin
     this.static('/', path.join(__dirname, '../public'));
 
     // add bearer token button
-
     this.addSecuritySpec();
 
     // Customize @loopback/rest-explorer configuration here
@@ -31,6 +30,11 @@ export class Loopback4Application extends BootMixin(ServiceMixin(RepositoryMixin
 
     // 规定observers的执行顺序
     this.bind(CoreBindings.LIFE_CYCLE_OBSERVER_OPTIONS).to(loopbackConfig.observerOptions);
+
+    this.bind(RestBindings.ERROR_WRITER_OPTIONS).to({
+      safeFields: ['errorCode'],
+      debug: loopbackConfig.debug,
+    });
 
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
