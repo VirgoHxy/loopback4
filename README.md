@@ -30,6 +30,14 @@ Open [~~default url~~](http://127.0.0.1:3000) in your browser.
 
 this project is [new url](http://127.0.0.1:3001)
 
+## Watch run the application
+
+```sh
+npm run start:watch
+```
+
+Open http://127.0.0.1:3001 in your browser. When you modify your file, the server can auto-reload. not restart the server.
+
 ## Readme detail
 
 - .vscode/ -- vscode 配置 json
@@ -96,6 +104,8 @@ this project is [new url](http://127.0.0.1:3001)
 lb4 [<name>]
 # generate datasource
 lb4 datasource [<name>]
+# generate model from datasource
+lb4 discover
 # generate model
 lb4 model [<name>]
 # generate repository
@@ -105,9 +115,9 @@ lb4 controller [<name>]
 # generate service
 lb4 service [<name>]
 # generate model`s relation
-lb4 observer [<name>]
-# generate observer
 lb4 relation [<name>]
+# generate observer
+lb4 observer [<name>]
 ```
 
 ## Rebuild the project

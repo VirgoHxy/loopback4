@@ -7,10 +7,7 @@ import config from './remote-one.datasource.config.json';
 // gracefully. The `stop()` method is inherited from `juggler.DataSource`.
 // Learn more at https://loopback.io/doc/en/lb4/Life-cycle.html
 @lifeCycleObserver('datasource')
-export class RemoteOneDataSource
-  extends juggler.DataSource
-  implements LifeCycleObserver
-{
+export class RemoteOneDataSource extends juggler.DataSource implements LifeCycleObserver {
   static dataSourceName = 'remoteOne';
   static readonly defaultConfig = config;
 

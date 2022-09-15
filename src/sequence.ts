@@ -1,6 +1,6 @@
 import {ControllerRoute, DefaultSequence, Request, RequestContext} from '@loopback/rest';
 import {settingConfig} from './config';
-import {JWTPlugin, ResultPlugin, TokenConstant, UnauthorizedError} from './plugins';
+import {JWTPlugin, SuccessResult, TokenConstant, UnauthorizedError} from './plugins';
 
 export class MySequence extends DefaultSequence {
   auth(request: Request): boolean {
@@ -60,7 +60,7 @@ export class MySequence extends DefaultSequence {
       // invoke() uses both the route and params elements to produce the result (OperationRetVal) element
       let result = await this.invoke(route, params);
       if (isOper) {
-        result = ResultPlugin.getSuccessResult(result);
+        result = new SuccessResult(result);
       }
       // send() uses the result element
       this.send(context.response, result);

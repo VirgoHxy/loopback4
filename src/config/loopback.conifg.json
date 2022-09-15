@@ -1,12 +1,13 @@
 {
+  "//debug_switch": "是否开启调试，在prd环境请设置为false",
   "debug": true,
-  "rest": {
-    "port": 3001
-  },
+  "//observer_options": "控制自执行顺序",
   "observerOptions": {
     "orderedGroups": ["g1", "g2"]
   },
-  "custom": {
-    "apiBasePath": "/api"
+  "//rest": "api信息",
+  "rest": {
+    "port": 3001,
+    "//basePath": "/api"
   }
 }

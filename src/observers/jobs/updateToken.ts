@@ -10,7 +10,7 @@ export async function updateTokenFunc(remoteService: RemoteServiceProp) {
     //   settingConfig.remoteAccount,
     //   settingConfig.remotePassword,
     // );
-    // settingConfig.remoteToken = result.access_token;
+    // settingConfig.remoteToken = result.accessToken;
     settingConfig.remoteToken = 'token';
     logger.info(settingConfig.remoteToken);
   } catch (error) {

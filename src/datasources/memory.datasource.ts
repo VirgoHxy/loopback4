@@ -7,10 +7,7 @@ import config from './memory.datasource.config.json';
 // gracefully. The `stop()` method is inherited from `juggler.DataSource`.
 // Learn more at https://loopback.io/doc/en/lb4/Life-cycle.html
 @lifeCycleObserver('datasource')
-export class MemoryDataSource
-  extends juggler.DataSource
-  implements LifeCycleObserver
-{
+export class MemoryDataSource extends juggler.DataSource implements LifeCycleObserver {
   static dataSourceName = 'memory';
   static readonly defaultConfig = config;
 

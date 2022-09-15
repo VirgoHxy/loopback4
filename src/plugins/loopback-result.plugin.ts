@@ -1,9 +1,10 @@
 import {HttpErrors} from '@loopback/rest';
+import {loopbackConfig} from '../config';
 
-export interface Result {
+export interface IResult<T> {
   status: boolean;
   msg?: string;
-  data?: unknown;
+  data?: T;
   error?: unknown;
 }
 
@@ -12,11 +13,13 @@ export class UnauthorizedError {
     return new HttpErrors.Unauthorized(message);
   }
 }
+
 export class BadRequestError {
   constructor(message: string) {
     return new HttpErrors.BadRequest(message);
   }
 }
+
 export class NotFoundError {
   constructor(message: string) {
     // "message": "Entity not found: Entity with id xxx",
@@ -26,19 +29,34 @@ export class NotFoundError {
   }
 }
 
-export class ResultPlugin {
-  static getSuccessResult(result?: unknown, msg?: string): Result {
-    return {
-      status: true,
-      msg: msg,
-      data: result,
-    };
+export class Result<T> {
+  status: boolean;
+  data?: T | undefined;
+  msg?: string | undefined;
+  error?: unknown;
+
+  constructor(status: boolean, data?: T, msg?: string, error?: unknown) {
+    this.status = status;
+    this.data = data;
+    this.msg = msg;
+    this.error = error;
   }
-  static getErrorResult(error?: unknown, msg?: string): Result {
-    return {
-      status: false,
-      msg: msg,
-      error: error,
-    };
+}
+
+export class SuccessResult<T> extends Result<T> {
+  constructor(data?: T, msg?: string) {
+    super(true);
+    this.data = data;
+    this.msg = msg;
+  }
+}
+
+export class FailedResult<T> extends Result<T> {
+  constructor(error?: unknown, msg?: string) {
+    super(false);
+    if (loopbackConfig.debug) {
+      this.error = error;
+    }
+    this.msg = msg;
   }
 }

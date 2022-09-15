@@ -34,7 +34,7 @@ export class City extends Entity {
 
   constructor(data?: Partial<City>) {
     super(data);
-    this.date = dayjs(this.date).format('YYYY-MM-DD');
+    if (this.date) this.date = dayjs(this.date).format('YYYY-MM-DD');
   }
 }
 

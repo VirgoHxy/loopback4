@@ -4,7 +4,7 @@ import {RemoteDataSource} from '../datasources';
 
 export interface RemoteServiceProp {
   // Add the following property
-  getToken(username: string, password: string): Promise<{access_token: string}>;
+  getToken(username: string, password: string): Promise<{accessToken: string}>;
   getRemoteData(token: string, body: Object): Promise<Object>;
   getTypeDesc(token: string, type: number): Promise<string>;
 }
