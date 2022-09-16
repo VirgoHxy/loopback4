@@ -40,6 +40,9 @@
 - 如何格式化 model 的时间
   - 在 model 的 constructor 中使用 `if (this.字段名) this.字段名 = format(this.字段名)`来返回想要的格式内容
   - 可以使用任何想格式化或者转义的字段
+- 在 model 的构造函数加入一个自定义属性（并未和数据库字段对应）后，当 entity 转为 object 后，这个属性会消失
+  - 可以采用下述方法来防止属性消失
+  - `results.map(ele => Object.assign(JSON.parse(JSON.stringify(ele)), {status: ele.field}));`
 - where 语句可以使用正则，当不需要区分大小的字段，可以使用正则
   - `` where: {字段名: {regexp: new RegExp(`^${字段列表.join('$|^')}$`, 'i')} `` - inq 并且不区分大小写精准匹配
   - `` where: {字段名: {regexp: new RegExp(`^${字段}$`, 'i')} `` - 字段不区分大小写精准匹配
