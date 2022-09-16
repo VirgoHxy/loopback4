@@ -1,7 +1,5 @@
 # question list
 
-- 如何在中间件设置自定义请求头内容，并让 controller 可以正确解析到请求头
-
 # to-do list
 
 # done list
@@ -14,6 +12,31 @@
   1. 不返回无法加到 schema 字段，就只返回基础的模型字段；就是结果和文档不对应
   2. 手写所有的 schema；工作量很大
   3. 定义自定义 model 继承实体 model，这个自定义 model 只用做 schema 和类型定义，不和数据库有关联；大致可以，工作量较大(采取)
+- getModelSchemaRef 方法的配置参数
+  - includeRelations - schema 是否包含模型关系
+  - partial - 是否让模型字段变为可选，一般用于 patch 方法，更新某些字段；当值为`deep`时表示属性为模型也可以可选
+  - exclude - 忽略这个数组中的字段
+  - optional - 会覆盖 partial，表示这个数组中的字段时可选的
+- 手写 schema
+  ```javascript
+      schema: {
+        type: 'object',
+        properties: {
+          field: {type: 'string'},
+        },
+      }
+  ```
+  ```javascript
+      schema: {
+        type: 'array',
+        items: {
+          type: 'object',
+          properties: {
+            field: {type: 'string'},
+          },
+        }
+      }
+  ```
 - 如何格式化 model 的时间
   - 在 model 的 constructor 中使用 `if (this.字段名) this.字段名 = format(this.字段名)`来返回想要的格式内容
   - 可以使用任何想格式化或者转义的字段
@@ -54,6 +77,30 @@
 yourField: number
 ```
 
+- 参数使用数组
+
+  - get
+    `@param.array('fields', 'query', {type: 'string'}) fields?: string[]`
+  - post
+
+    ```javascript
+      // post
+      @property.array(String, {
+        type: 'array',
+        itemType: 'string',
+      })
+      fields?: string[];
+
+      // post
+      @property.array(FieldClass, {
+        type: 'array',
+      })
+      fields?: FieldClass[];
+    ```
+
+- 如何在中间件设置自定义请求头内容，并让 controller 可以正确解析到请求头
+  - 没必要，并且在 header 加也不符合规范
+  - 可以在 query 里面加自定义参数
 - tsconfig.json 的别名提示需要重新关闭项目才会有提示，import json 文件的属性不会有提示
   - 使用 index.js 引入再抛出 json 值
 - postgresql 设置自增 id，当导入数据后，表的自增 id 没有变化
