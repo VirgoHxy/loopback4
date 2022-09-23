@@ -1,5 +1,14 @@
 # question list
 
+```javascript
+  @property({
+    type: 'string',
+  })
+  field?: string;
+```
+
+数据库可以存放 null，所以 undefined 数据字段会存 null 进数据库，但是 loopback4 的 schema 只能指定是否可选，所以字段只能是 string 或者 undefined；这样导致 null 数据可以给前端，但前端不能原封不动将 null 返给后端，需要转为 undefined
+
 # to-do list
 
 # done list
@@ -104,6 +113,7 @@ yourField: number
 - 如何在中间件设置自定义请求头内容，并让 controller 可以正确解析到请求头
   - 没必要，并且在 header 加也不符合规范
   - 可以在 query 里面加自定义参数
+  - 或者将 request 整个引入到 controller 层
 - tsconfig.json 的别名提示需要重新关闭项目才会有提示，import json 文件的属性不会有提示
   - 使用 index.js 引入再抛出 json 值
 - postgresql 设置自增 id，当导入数据后，表的自增 id 没有变化
