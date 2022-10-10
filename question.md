@@ -1,17 +1,8 @@
-# question list
+## question list
 
-```javascript
-  @property({
-    type: 'string',
-  })
-  field?: string;
-```
+## to-do list
 
-数据库可以存放 null，所以 undefined 数据字段会存 null 进数据库，但是 loopback4 的 schema 只能指定是否可选，所以字段只能是 string 或者 undefined；这样导致 null 数据可以给前端，但前端不能原封不动将 null 返给后端，需要转为 undefined
-
-# to-do list
-
-# done list
+## done list
 
 - 脱离了 loopback 的命令，开发就会变得复杂，所以需要严格遵守 loopback 的规则，尽量使用命令来创建代码，不要做灵活的自定义
 - controllers， models， repositories， services 文件夹不分层，就会把所有文件都放在一个文件夹，不易维护
@@ -21,12 +12,21 @@
   1. 不返回无法加到 schema 字段，就只返回基础的模型字段；就是结果和文档不对应
   2. 手写所有的 schema；工作量很大
   3. 定义自定义 model 继承实体 model，这个自定义 model 只用做 schema 和类型定义，不和数据库有关联；大致可以，工作量较大(采取)
+- 数据库可以存放 null，所以 undefined 数据字段会存 null 进数据库，但是 loopback4 的 schema 只能指定是否可选，所以字段只能是 string 或者 undefined；这样导致 null 数据可以给前端，但前端不能原封不动将 null 返给后端，需要转为 undefined；解决办法是使用 jsonSchema 加入 nullable
+  ```javascript
+  @property({
+    type: 'string',
+    jsonSchema: {nullable: true},
+  })
+  field?: string;
+  ```
 - getModelSchemaRef 方法的配置参数
   - includeRelations - schema 是否包含模型关系
   - partial - 是否让模型字段变为可选，一般用于 patch 方法，更新某些字段；当值为`deep`时表示属性为模型也可以可选
   - exclude - 忽略这个数组中的字段
   - optional - 会覆盖 partial，表示这个数组中的字段时可选的
 - 手写 schema
+
   ```javascript
       schema: {
         type: 'object',
@@ -35,6 +35,7 @@
         },
       }
   ```
+
   ```javascript
       schema: {
         type: 'array',
@@ -46,6 +47,7 @@
         }
       }
   ```
+
 - 如何格式化 model 的时间
   - 在 model 的 constructor 中使用 `if (this.字段名) this.字段名 = format(this.字段名)`来返回想要的格式内容
   - 可以使用任何想格式化或者转义的字段
