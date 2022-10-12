@@ -17,8 +17,9 @@ export interface LoggerArg {
   minLevel?: string;
 }
 
-export class CustomLogger {
-  winstonLogger: winston.Logger;
+export class Logger {
+  static instance = new Logger({transportType: TransportEnum.all});
+  winstonLogger: winston.LoggerOptions;
 
   private options = {
     console: {
@@ -43,19 +44,19 @@ export class CustomLogger {
   };
 
   private filterFn = {
-    errorFilter: winston.format((info, opts) => {
+    errorFilter: winston.format(info => {
       return info.level === 'error' ? info : false;
     }),
 
-    warnFilter: winston.format((info, opts) => {
+    warnFilter: winston.format(info => {
       return info.level === 'warn' ? info : false;
     }),
 
-    infoFilter: winston.format((info, opts) => {
+    infoFilter: winston.format(info => {
       return info.level === 'info' ? info : false;
     }),
 
-    debugFilter: winston.format((info, opts) => {
+    debugFilter: winston.format(info => {
       return info.level === 'debug' ? info : false;
     }),
   };
