@@ -19,7 +19,7 @@ export interface LoggerArg {
 
 export class Logger {
   static instance = new Logger({transportType: TransportEnum.all});
-  winstonLogger: winston.LoggerOptions;
+  winstonLogger: winston.Logger;
 
   private options = {
     console: {
