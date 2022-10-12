@@ -58,6 +58,7 @@
     "@loopback/rest": "^12.0.2",
     "@loopback/rest-explorer": "^5.0.2",
     "@loopback/service-proxy": "^5.0.2",
+    "axios": "^1.1.2",
     "dayjs": "^1.11.5",
     "jsonwebtoken": "^8.5.1",
     "loopback-connector-mysql": "^5.4.4",
