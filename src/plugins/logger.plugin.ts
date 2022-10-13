@@ -20,6 +20,7 @@ export interface LoggerArg {
 export class Logger {
   static instance = new Logger({transportType: TransportEnum.all});
   winstonLogger: winston.Logger;
+  loggerOptions: winston.LoggerOptions;
 
   private options = {
     console: {
@@ -172,7 +173,7 @@ export class Logger {
       onlyConsole: [...transportTypeObj.console],
       category: [...transportTypeObj.console, ...transportTypeObj.category],
     };
-    const loggerOptions = {
+    this.loggerOptions = {
       format: winston.format.combine(
         winston.format.label({label: transportType}),
         winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
@@ -182,7 +183,7 @@ export class Logger {
       exceptionHandlers: transportType !== 'onlyConsole' ? exceptionHandlers[transportType] : [],
       rejectionHandlers: transportType !== 'onlyConsole' ? rejectionHandlers[transportType] : [],
     };
-    this.winstonLogger = winston.createLogger(loggerOptions);
+    this.winstonLogger = winston.createLogger(this.loggerOptions);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -212,13 +213,11 @@ export class Logger {
         // eslint-disable-next-line
       } catch {}
       const metaData = this.formatMeta(meta);
-      let str = `timestamp: ${timestamp},
-  location: '${file}',
+      let str = `timestamp: ${timestamp},${file ? `\r\n  location: '${file}',` : ''}
   level: ${level.toUpperCase()},
-  message: '${message}'`;
-
+  message: ${message}`;
       if (label) {
-        str += `,\r\n  label: '${label}'`;
+        str += `,\r\n  label: ${label}`;
       }
       if (metaData) {
         const data = metaData;
@@ -234,5 +233,32 @@ export class Logger {
   ${str}
 }`;
     });
+  }
+
+  setLabelWithFile(label: string) {
+    let file = '';
+    try {
+      const error = new Error();
+      const stackArray = error.stack?.toString().split(/\n.*at\s/) ?? [];
+      for (let index = 1; index < stackArray.length; index++) {
+        const element = stackArray[index];
+        if (element.indexOf('setLabel') !== -1) {
+          const fileMatch = stackArray[index + 1].match(/\((.*)\)/);
+          file = fileMatch ? fileMatch[1] : stackArray[index + 1];
+          break;
+        }
+      }
+      // eslint-disable-next-line
+    } catch {}
+    const match = file.match(/^(.+\.ts|js)/);
+    this.setLabel(label, match ? match[1] : '');
+  }
+
+  setLabel(label: string, file?: string) {
+    this.winstonLogger.format = winston.format.combine(
+      winston.format.label({label: file ? `${label} - ${file}` : label}),
+      winston.format.timestamp({format: 'YYYY-MM-DD HH:mm:ss'}),
+      this.customFormat(),
+    );
   }
 }
