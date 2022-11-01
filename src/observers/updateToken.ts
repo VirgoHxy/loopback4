@@ -1,6 +1,6 @@
 import {lifeCycleObserver, LifeCycleObserver, service} from '@loopback/core';
 import {loopbackConfig} from '../config';
-import {logger} from '../plugins';
+import {loggerInstance} from '../plugins';
 import {RemoteProvider, RemoteServiceProp} from '../services';
 import {updateTokenFunc} from './jobs/updateToken';
 
@@ -10,6 +10,7 @@ import {updateTokenFunc} from './jobs/updateToken';
  */
 @lifeCycleObserver(loopbackConfig.observerOptions.orderedGroups[0])
 export class UpdateTokenObserver implements LifeCycleObserver {
+  private logger = loggerInstance.getLogger('token_observer');
   constructor(@service(RemoteProvider) protected remoteService: RemoteServiceProp) {}
 
   /**
@@ -23,6 +24,6 @@ export class UpdateTokenObserver implements LifeCycleObserver {
    * This method will be invoked when the application stops
    */
   async stop(): Promise<void> {
-    logger.info('updateToken', 'stopped');
+    this.logger.info('updateToken', 'stopped');
   }
 }

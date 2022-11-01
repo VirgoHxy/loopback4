@@ -1,7 +1,7 @@
 import {Application, CoreBindings, inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {IsolationLevel, repository} from '@loopback/repository';
 import {loopbackConfig} from '../config';
-import {logger} from '../plugins';
+import {loggerInstance} from '../plugins';
 import {CityRepository} from '../repositories';
 
 /**
@@ -10,6 +10,7 @@ import {CityRepository} from '../repositories';
  */
 @lifeCycleObserver(loopbackConfig.observerOptions.orderedGroups[1])
 export class CreateCityObserver implements LifeCycleObserver {
+  private logger = loggerInstance.getLogger('city_observer');
   constructor(
     // inject `app` if you need access to other artifacts by `await this.app.get()`
     @inject(CoreBindings.APPLICATION_INSTANCE) private app: Application,
@@ -34,9 +35,9 @@ export class CreateCityObserver implements LifeCycleObserver {
       const result2 = countResult2.count === 0 && (await this.cityRepo.create({name: 'beijing'}, {transaction}));
       await transaction.commit();
       // await transaction.rollback();
-      logger.info('createCity', result1, result2);
+      this.logger.info('createCity', result1, result2);
     } catch (error) {
-      logger.warning('createCity', error);
+      this.logger.error('createCity', error);
     }
   }
 
@@ -44,6 +45,6 @@ export class CreateCityObserver implements LifeCycleObserver {
    * This method will be invoked when the application stops
    */
   async stop(): Promise<void> {
-    logger.info('createCity', 'stopped');
+    this.logger.info('createCity', 'stopped');
   }
 }

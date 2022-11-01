@@ -1,12 +1,12 @@
-import {logger} from '../../plugins';
+import {loggerInstance} from '../../plugins';
 
 export default class NoticeEvent {
-  param: unknown;
-  constructor(param: unknown) {
+  private logger = loggerInstance.getLogger('notice_event');
+  constructor(public param: unknown) {
     this.param = param;
   }
 
   excute() {
-    logger.debug('notice param:', this.param);
+    this.logger.debug('notice param:', this.param);
   }
 }

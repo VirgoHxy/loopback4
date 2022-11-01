@@ -1,6 +1,14 @@
 import {ControllerRoute, DefaultSequence, Request, RequestContext} from '@loopback/rest';
+import jwt from 'jsonwebtoken';
 import {settingConfig} from './config';
 import {JWTPlugin, SuccessResult, TokenConstant, UnauthorizedError} from './plugins';
+
+const tokenConstant: TokenConstant = {
+  SECRET_KEY: settingConfig.jwt.secret,
+  EXPIRATION: settingConfig.jwt.expiresIn,
+  ALGORITHM: settingConfig.jwt.algorithm as jwt.Algorithm,
+};
+const jwtPlugin = new JWTPlugin(tokenConstant);
 
 export class MySequence extends DefaultSequence {
   auth(request: Request): boolean {
@@ -16,12 +24,7 @@ export class MySequence extends DefaultSequence {
     }
 
     try {
-      const tokenConstant: TokenConstant = {
-        SECRET_KEY: settingConfig.jwt.secret,
-        EXPIRATION: settingConfig.jwt.expiresIn,
-        ALGORITHM: 'HS256',
-      };
-      new JWTPlugin(tokenConstant).verify(jwtToken);
+      jwtPlugin.verify(jwtToken);
       return true;
     } catch (error) {
       return false;

@@ -1,6 +1,8 @@
 import {ApplicationConfig, Loopback4Application} from './application';
 import {loopbackConfig} from './config';
-import {JWTPlugin, logger} from './plugins';
+import {JWTPlugin, loggerInstance} from './plugins';
+
+const logger = loggerInstance.getLogger('main');
 
 export * from './application';
 

@@ -3,7 +3,8 @@
   "remoteAccount": "admin",
   "remotePassword": "admin",
   "jwt": {
+    "secret": "your-256-bit-secret",
     "expiresIn": 86400,
-    "secret": "your-256-bit-secret"
+    "algorithm": "HS256"
   }
 }

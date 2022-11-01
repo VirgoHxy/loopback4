@@ -1,8 +1,10 @@
 import {service} from '@loopback/core';
 import {CronJob, cronJob} from '@loopback/cron';
 import {settingConfig} from '../../config';
-import {logger} from '../../plugins';
+import {loggerInstance} from '../../plugins';
 import {RemoteProvider, RemoteServiceProp} from '../../services';
+
+const logger = loggerInstance.getLogger('token_job');
 
 export async function updateTokenFunc(remoteService: RemoteServiceProp) {
   try {
